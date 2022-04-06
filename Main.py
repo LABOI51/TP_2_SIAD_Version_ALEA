@@ -1,6 +1,5 @@
 import time
 
-import Economies
 import Lecture_distances
 import Lecture_operateurs
 import Clark_Wright
@@ -14,15 +13,15 @@ def main():
     path = "DATA.xlsm"
     data, noeuds_1, noeuds_2, liste_noeuds, temps_gestion_noeuds = Lecture_distances.get_distance_data(path)
     parametres, itineraires, liste_clees = Lecture_operateurs.get_operateurs(path, liste_noeuds)
-    economies = Economies.calcul_econ(data, noeuds_1, noeuds_2, liste_noeuds)
+
     #Puisque la résolution est de nature aléatoire, il y aura plusieurs itérations de celle-ci pendant une période de temps fixe
     # ou sur un nombre d'itérations maximum:
     start = time.time()
     temps = 0
-    temps_max = 60
+    temps_max = 120
 
     iteration = 0
-    iteration_max = 1000
+    iteration_max = 15000
 
     #Solutioner le problème une première fois:
 
@@ -31,7 +30,6 @@ def main():
     while state is False and iteration <= 50:
         iteration += 1
         sol, state, jour = Clark_Wright.solve_probleme(data,
-                                                       economies,
                                                        parametres,
                                                        itineraires,
                                                        liste_clees,
@@ -55,7 +53,7 @@ def main():
         iteration += 1
 
         #Solve
-        sol_temp, state, jour_temp = Clark_Wright.solve_probleme(data, economies, parametres, itineraires,
+        sol_temp, state, jour_temp = Clark_Wright.solve_probleme(data, parametres, itineraires,
                                                                  liste_clees, liste_noeuds, temps_gestion_noeuds)
 
         if state is True:
@@ -72,9 +70,9 @@ def main():
     print("\n" + str(iteration) + " solutions trouvées en " + str(temps)[:5] + " secondes.")
     print("\nTemps total pour faire l'entièreté des livraisons: " + str(jour) + " jours")
     print("\nMeilleure solution trouvée: ")
+
     for i, trajet in enumerate(sol):
         print("\nJour " + str(i+1) + ":" + str(trajet))
-
     print("\nValeur de la fonction objectif de cette solution: " + str(round(val_sol, 2)))
 
 main()
