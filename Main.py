@@ -66,7 +66,7 @@ def main():
                 sol = sol_temp
                 jour = jour_temp
 
-    print("\nMéthode utilisée : Heuristique de Clark & Wright simplifié")
+    print("\nMéthode utilisée : Méthode aléatoire")
     print("\n" + str(iteration) + " solutions trouvées en " + str(temps)[:5] + " secondes.")
     print("\nTemps total pour faire l'entièreté des livraisons: " + str(jour) + " jours")
     print("\nMeilleure solution trouvée: ")
